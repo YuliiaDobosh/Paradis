@@ -1,0 +1,71 @@
+{% extends 'public/template/public_template.html' %}
+{% load static %}
+{% block title %}
+  Змінити Дані Майстра
+{% endblock %}
+{% block main %}
+  <!-- Quote Start -->
+  <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+    <div class="container quote px-lg-0">
+      <div class="row g-0 mx-lg-0">
+        <div class="col-lg-6 ps-lg-0" style="min-height: 400px">
+          <div class="position-relative h-100">
+            <img class="position-absolute img-fluid w-100 h-100" src="{{ obj.photo.url }}" style="object-fit: cover" alt="" />
+          </div>
+        </div>
+        <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
+          <div class="p-lg-5 pe-lg-0">
+            <form method="POST" action="{% url 'edit' object_type='master' object_id=obj_id %}" class="my-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                  <input type="text" class="form-control border-0" placeholder="Повне ім'я" style="height: 55px" name="full_name" id="full_name" value="{{ obj.full_name }}" />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <input type="text" class="form-control border-0" style="height: 55px" placeholder="Адреса" name="address" id="address" value="{{ obj.address }}" />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <input type="text" class="form-control border-0" style="height: 55px" placeholder="Номер телефону" name="phone_number" id="phone_number" value="{{ obj.phone_number }}" />
+                </div>
+                <div class="col-12 col-sm-6">
+                  {% if obj.twitter %}
+                    <input type="text" class="form-control border-0" style="height: 55px" placeholder="Twitter" name="twitter" id="twitter" value="{{ obj.twitter }}" />
+                  {% else %}
+                    <input type="text" class="form-control border-0" style="height: 55px" placeholder="Twitter" name="twitter" id="twitter" />
+                  {% endif %}
+                </div>
+                <div class="col-12 col-sm-6">
+                  {% if obj.facebook %}
+                    <input type="text" class="form-control border-0" style="height: 55px" placeholder="Facebook" name="facebook" id="facebook" value="{{ obj.facebook }}" />
+                  {% else %}
+                    <input type="text" class="form-control border-0" style="height: 55px" placeholder="Facebook" name="facebook" id="facebook" />
+                  {% endif %}
+                </div>
+                <div class="col-12 col-sm-6">
+                  {% if obj.instagram %}
+                    <input type="text" class="form-control border-0" style="height: 55px" placeholder="Instagram" name="instagram" id="instagram" value="{{ obj.instagram }}" />
+                  {% else %}
+                    <input type="text" class="form-control border-0" style="height: 55px" placeholder="Instagram" name="instagram" id="instagram" />
+                  {% endif %}
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label for="file">Фото:</label>
+                  <input type="file" class="form-control border-0" style="height: 55px" id="fileInput" name="photo" onchange="loadNewFile(event)" />
+                  <a id="fileLink" href="{{ obj.photo.url }}">{{ obj.photo.name }}</a>
+                </div>
+                <div class="col-12">
+                  <textarea class="form-control border-0" placeholder="Про себе" name="bio" id="bio">{{ obj.bio }}</textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary w-100 py-3" type="submit">Відправити</button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Quote End -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
