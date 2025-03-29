@@ -1,0 +1,249 @@
+{% extends 'public/template/public_template.html' %}
+{% load static %}
+{% block title %}
+  Кабінет
+{% endblock %}
+{% block main %}
+  <!-- Feature Start -->
+  <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+    <div class="container feature px-lg-0">
+      <div class="row g-0 mx-lg-0">
+        <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.5s">
+          <div class="p-lg-5 ps-lg-0">
+            <div class="section-title text-start">
+              <h1 class="display-5 mb-4">{{ s_user.full_name }}</h1>
+            </div>
+            {% if is_client == False %}
+              <p class="mb-4 pb-2">{{ s_user.bio }}</p>
+            {% endif %}
+            <div class="row g-4">
+              {% if is_client %}
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fas fa-user fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      <h5 class="mb-0">Клієнт</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fas fa-key fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      <p class="mb-2">Ваш ID клієнта</p>
+                      <h5 class="mb-0">{{ s_user.pk }}</h5>
+                    </div>
+                  </div>
+                </div>
+              {% elif is_master %}
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fas fa-crown fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      <h5 class="mb-0">Майстер</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fas fa-key fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      <p class="mb-2">Ваш ID майстра</p>
+                      <h5 class="mb-0">{{ s_user.pk }}</h5>
+                    </div>
+                  </div>
+                </div>
+              {% else %}
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fas fa-user-cog fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      <h5 class="mb-0">Адміністратор</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fas fa-key fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      <p class="mb-2">Ваш ID адміністратора</p>
+                      <h5 class="mb-0">{{ s_user.pk }}</h5>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              <div class="col-6">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                    <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                  </div>
+                  <div class="ms-4">
+                    <p class="mb-2">Адреса</p>
+                    <h5 class="mb-0">{{ s_user.address }}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                    <i class="fas fa-phone fa-2x text-primary"></i>
+                  </div>
+                  <div class="ms-4">
+                    <p class="mb-2">Телефон</p>
+                    <h5 class="mb-0">{{ s_user.phone_number }}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                    <i class="fas fa-envelope fa-2x text-primary"></i>
+                  </div>
+                  <div class="ms-4">
+                    <p class="mb-2">Email</p>
+                    <h5 class="mb-0">{{ s_user.email }}</h5>
+                  </div>
+                </div>
+              </div>
+              {% if is_client == False %}
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fab fa-instagram fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      {% if s_user.instagram %}
+                        <h5 class="mb-0"><a href="{{ s_user.instagram }}">Instagram</a></h5>
+                      {% else %}
+                        <h5 class="mb-0">Instagram</h5>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fab fa-facebook fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      {% if s_user.facebook %}
+                        <h5 class="mb-0"><a href="{{ s_user.facebook }}">Facebook</a></h5>
+                      {% else %}
+                        <h5 class="mb-0">Facebook</h5>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                      <i class="fab fa-twitter fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                      {% if s_user.twitter %}
+                        <h5 class="mb-0"><a href="{{ s_user.twitter }}">Twitter</a></h5>
+                      {% else %}
+                        <h5 class="mb-0">Twitter</h5>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              <div class="col-6" align="center">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 60px; height: 60px">
+                    <i class="fas fa-edit fa-2x text-primary"></i>
+                  </div>
+                  <div class="ms-4">
+                    {% if is_client %}
+                      <h5 class="mb-0"><a href="{% url 'edit' object_type='client' object_id=s_user.pk %}">Змінити</a></h5>
+                    {% elif is_master %}
+                      <h5 class="mb-0"><a href="{% url 'edit' object_type='master' object_id=s_user.pk %}">Змінити</a></h5>
+                    {% else %}
+                      <h5 class="mb-0"><a href="{% url 'edit' object_type='admin' object_id=s_user.pk %}">Змінити</a></h5>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 pe-lg-0" style="min-height: 400px">
+          <div class="position-relative h-100">
+            {% if s_user.photo %}
+              <img class="position-absolute img-fluid w-100 h-100" src="{{ s_user.photo.url }}" style="object-fit: cover" alt="" />
+            {% else %}
+              <img class="position-absolute img-fluid w-100 h-100" src="https://cdn-icons-png.flaticon.com/512/219/219969.png" style="object-fit: cover" alt="" />
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Feature End -->
+
+  {% if is_admin %}
+    <h1 align="center" class="my-h">Відгуки, які чекають на підтвердження</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Клієнт</th>
+          <th>Відгук</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for review in reviews %}
+          {% if review.is_confirmed == False %}
+            <tr>
+              <td>{{ review.client.full_name }}</td>
+              <td>{{ review.text }}</td>
+              <td>
+                <a href="{% url 'confirm' object_type='review' object_id=review.pk %}" title="Підтвердити"><i class="fas fa-check-circle text-primary"></i></a>
+              </td>
+              <td>
+                <a href="{% url 'delete' object_type='review' object_id=review.pk %}" title="Видалити"><i class="fas fa-trash text-primary"></i></a>
+              </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {% if is_client %}
+    <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
+      <div class="p-lg-5 pe-lg-0">
+        <div class="section-title text-start">
+          <h1 class="display-5 mb-4">Залишити Відгук</h1>
+        </div>
+        <form method="POST" action="{% url 'review' %}" id="search-form" name="gs" method="submit" role="search" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row g-3">
+            <input type="hidden" name="client_id" value="{{ s_user.pk }}" />
+
+            <div class="col-12 col-sm-6">
+              <input type="text" class="form-control border-0" placeholder="Відгук" style="height: 55px" name="text" id="text" required />
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary w-100 py-3" type="submit">Додати <i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Віртуальний асистент для підбору послуг</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Підібрати послуги</button>
+  </form>
+
+  {% if services %}
+    <h2>Рекомендовані послуги:</h2>
+    <ul>
+      {% for service in services %}
+        <li>{{ service.name }} - {{ service.price }} грн ({{ service.category.name }})</li>
+      {% empty %}
+        <li>Немає відповідних послуг</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

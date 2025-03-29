@@ -1,0 +1,53 @@
+{% extends 'public/template/public_template.html' %}
+{% load static %}
+{% block title %}
+  Змінити Дані Клієнта
+{% endblock %}
+{% block main %}
+  <!-- Quote Start -->
+  <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+    <div class="container quote px-lg-0">
+      <div class="row g-0 mx-lg-0">
+        <div class="col-lg-6 ps-lg-0" style="min-height: 400px">
+          <div class="position-relative h-100">
+            {% if obj.photo %}
+              <img class="position-absolute img-fluid w-100 h-100" src="{{ obj.photo.url }}" style="object-fit: cover" alt="" />
+            {% else %}
+              <img class="position-absolute img-fluid w-100 h-100" src="https://cdn-icons-png.flaticon.com/512/219/219969.png" style="object-fit: cover" alt="" />
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
+          <div class="p-lg-5 pe-lg-0">
+            <form method="POST" action="{% url 'edit' object_type='client' object_id=obj_id %}" class="my-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                  <input type="text" class="form-control border-0" placeholder="Повне ім'я" style="height: 55px" name="full_name" id="full_name" value="{{ obj.full_name }}" />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <input type="text" class="form-control border-0" style="height: 55px" placeholder="Адреса" name="address" id="address" value="{{ obj.address }}" />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <input type="text" class="form-control border-0" style="height: 55px" placeholder="Номер телефону" name="phone_number" id="phone_number" value="{{ obj.phone_number }}" />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label for="file">Фото:</label>
+                  <input type="file" class="form-control border-0" style="height: 55px" id="fileInput" name="photo" onchange="loadNewFile(event)" />
+                  {% if obj.photo %}
+                    <a id="fileLink" href="{{ obj.photo.url }}">{{ obj.photo.name }}</a>
+                  {% endif %}
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary w-100 py-3" type="submit">Відправити</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Quote End -->
+      </div>
+    </div>
+  </div>
+{% endblock %}

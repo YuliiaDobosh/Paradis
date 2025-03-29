@@ -1,0 +1,214 @@
+{% extends 'public/template/public_template.html' %} 
+{% load static %} 
+{% block title %} Послуги {% endblock title %} 
+{% block main %}
+</div>
+
+{% if is_admin or is_master %}
+<!-- Quote Start -->
+<div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+  <div class="container quote px-lg-0">
+    <div class="row g-0 mx-lg-0">
+      <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
+        <div class="p-lg-5 pe-lg-0">
+          <div class="section-title text-start">
+            <h1 class="display-5 mb-4">Додати Послугу</h1>
+          </div>
+          <form method="POST"
+          action="#"
+          id="search-form"
+          name="gs"
+          method="submit"
+          role="search"
+          enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-12 col-sm-6">
+              <select name="service_category"
+              class="form-select"
+              id="service_category" style="height: 55px"
+              required>
+                {% for service_category in service_categories %}
+                <option value="{{ service_category.pk }}">{{ service_category }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-12 col-sm-6">
+                <input
+                  type="text"
+                  class="form-control border-0"
+                  placeholder="Назва"
+                  style="height: 55px"
+                  name="name" id="name"
+                  required
+                />
+            </div>
+            <div class="col-12 col-sm-6">
+                <input
+                  type="number"
+                  class="form-control border-0"
+                  placeholder="Ціна"
+                  style="height: 55px"
+                  name="price" id="price"
+                  required
+                />
+            </div>
+            <div class="col-12 col-sm-6">
+                <input
+                  type="number"
+                  class="form-control border-0"
+                  placeholder="Тривалість"
+                  style="height: 55px"
+                  name="duration" id="duration"
+                  required
+                />
+            </div>
+            <div class="col-12 col-sm-6">
+                <label for="file">Фото:</label>
+                <input
+                  type="file"
+                  class="form-control border-0"
+                  style="height: 55px"
+                  id="fileInput"
+                    name="photo"
+                    onchange="loadNewFile(event)"
+                />
+              </div>  
+            <div class="col-12">
+                <textarea
+                  class="form-control border-0"
+                  placeholder="Опис"
+                  name="description"
+                    id="description"
+                    required
+                ></textarea>
+              </div>
+              <div class="col-12">
+                <button class="btn btn-primary w-100 py-3" type="submit">
+                  Додати  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Quote End -->
+{% endif %}
+
+{% if is_admin %}
+<!-- Projects Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+      <div class="row g-4">
+      <div class="section-title text-center">
+        <h1 class="display-5 mb-5">Послуги, які очікують на підтвердження</h1>
+      </div>
+      <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
+        <div class="col-12 text-center">
+          <ul class="list-inline mb-5" id="portfolio-flters">
+            <li class="mx-2 active" data-filter="*">Усі</li>
+  
+            {% for service_category in service_categories %}
+            <li class="mx-2" data-filter=".{{service_category.id}}">{{service_category.name}}</li>
+            {% endfor %}
+  
+          </ul>
+        </div>
+      </div>
+      
+      
+    </div>
+      <div class="row g-4 portfolio-container">
+        {% for service in services %}
+        {% if service.is_confirmed == False %}
+      <div
+          class="col-lg-4 col-md-6 portfolio-item {{ service.category.id }} wow fadeInUp"
+          data-wow-delay="0.3s"
+        >
+          <div class="rounded overflow-hidden">
+            <div class="border border-5 border-light border-top-0 p-4">
+              <p class="text-primary fw-medium mb-2">{{ service.category.name }}</p>
+              <h5 class="lh-base mb-0">
+                {{ service.name }}
+              </h5>
+              <p>
+                {{ service.description }}
+              </p>
+              <p class="fw-medium mb-2">{{ service.price }}₴    |<i class="fa fa-clock ms-2"></i>  {{ service.duration }}хв</p>
+              <a class="fw-medium" href="{% url 'confirm' object_type='service' object_id=service.pk %}" title="Підтвердити"
+                ><i class="fas fa-check-circle ms-2"></i>
+                </a>
+                <a class="fw-medium" href="{% url 'edit' object_type='service' object_id=service.pk %}" title="Змінити"><i class="fas fa-edit text-primary"></i></a>
+                <a class="fw-medium" href="{% url 'delete' object_type='service' object_id=service.pk %}" title="Видалити"><i class="fas fa-trash text-primary" ></i></a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+       
+    </div>
+  </div>
+  <!-- Projects End -->
+{% endif %}
+
+<!-- Projects Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+      <div class="row g-4">
+      <div class="section-title text-center">
+        <h1 class="display-5 mb-5">Прайс-Лист Послуг</h1>
+      </div>
+      <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
+        <div class="col-12 text-center">
+          <ul class="list-inline mb-5" id="portfolio-flters">
+            <li class="mx-2 active" data-filter="*">Усі</li>
+  
+            {% for service_category in service_categories %}
+            <li class="mx-2" data-filter=".{{service_category.id}}">{{service_category.name}}</li>
+            {% endfor %}
+  
+          </ul>
+        </div>
+      </div>
+      
+      
+    </div>
+      <div class="row g-4 portfolio-container">
+        {% for service in services %}
+        {% if service.is_confirmed %}
+      <div
+          class="col-lg-4 col-md-6 portfolio-item {{ service.category.id }} wow fadeInUp"
+          data-wow-delay="0.3s"
+        >
+          <div class="border border-5 border-light border-top-0 p-4">
+            <p class="text-primary fw-medium mb-2">{{ service.category.name }}</p>
+            <h5 class="lh-base mb-0">
+              {{ service.name }}
+            </h5>
+            <p>
+              {{ service.description }}
+            </p>
+            <p class="fw-medium mb-2">{{ service.price }}₴    |<i class="fa fa-clock ms-2"></i>  {{ service.duration }}хв</p>
+            {% if is_admin or is_master %}
+            <a class="fw-medium" href="{% url 'edit' object_type='service' object_id=service.pk %}" title="Змінити"><i class="fas fa-edit text-primary"></i></a>
+                <a class="fw-medium" href="{% url 'delete' object_type='service' object_id=service.pk %}" title="Видалити"><i class="fas fa-trash text-primary" ></i></a>
+            {% elif is_client %}
+            <a class="fw-medium" href="{% url 'appointments' %}" title="Записатися"><i class="far fa-calendar-alt ms-2"></i>
+            </a>
+                {% else %}
+                <a class="fw-medium" href="{% url 'register'%}" title="Записатися"><i class="far fa-calendar-alt ms-2"></i>
+                </a>
+            {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+       
+    </div>
+  </div>
+<!-- Projects End -->
+
+{% endblock main %}

@@ -1,0 +1,50 @@
+{% extends 'public/template/public_template.html' %}
+{% load static %}
+{% block title %}
+  Змінити Дані Запису
+{% endblock %}
+{% block main %}
+  <!-- Quote Start -->
+  <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+    <div class="container quote px-lg-0">
+      <div class="row g-0 mx-lg-0">
+        <div class="col-lg-6 ps-lg-0" style="min-height: 400px">
+          <div class="position-relative h-100">
+            <img class="position-absolute img-fluid w-100 h-100" src="{% static 'assets/img/quote.jpg' %}" style="object-fit: cover" alt="" />
+          </div>
+        </div>
+        <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
+          <div class="p-lg-5 pe-lg-0">
+            <div class="section-title text-start">
+              <h1 class="display-5 mb-4">Зміна Запису</h1>
+            </div>
+            <form method="POST" action="{% url 'edit' object_type='appointment' object_id=obj_id %}" class="my-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                  <select name="master" class="form-select" aria-label="Search Field" id="master" style="height: 55px">
+                    <option selected value="{{ obj.master.pk }}">{{ obj.master }}</option>
+                    {% for master in masters %}
+                      <option value="{{ master.pk }}">{{ master }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <input type="date" id="date" name="date" style="height: 55px" class="form-control border-0" autocomplete="on" value="{{ obj.date }}" />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <input type="time" id="start_time" name="start_time" style="height: 55px" class="form-control border-0" autocomplete="on" value="{{ obj.start_time }}" />
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary w-100 py-3" type="submit">Зберегти</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Quote End -->
+      </div>
+    </div>
+  </div>
+{% endblock %}

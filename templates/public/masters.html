@@ -1,0 +1,185 @@
+{% extends 'public/template/public_template.html' %} 
+{% load static %} 
+{% block title %} Майстри {% endblock title %} 
+{% block main %}
+</div>
+<!-- Quote Start -->
+<div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+  <div class="container quote px-lg-0">
+    <div class="row g-0 mx-lg-0">
+      <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
+        <div class="p-lg-5 pe-lg-0">
+          <div class="section-title text-start">
+            <h1 class="display-5 mb-4">Пошук Майстрів</h1>
+          </div>
+          <form id="search-form" method="GET" role="search" action="#">
+            <div class="row g-3">
+              <div class="col-12 col-sm-6">
+                <select name="master_id" id="master_id" class="form-select border-0" style="height: 55px">
+                  <option value="" selected>Майстер</option>
+                  {% for master in masters %}
+                      <option value="{{ master.pk }}">{{ master }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-12 col-sm-6">
+                <input
+                  type="text"
+                  class="form-control border-0"
+                  placeholder="ID Майстра"
+                  style="height: 55px"
+                  name="master_id" id="master_id"
+                />
+              </div>
+              <div class="col-12 col-sm-6">
+                <input
+                  type="text"
+                  class="form-control border-0"
+                  placeholder="Номер Телефону"
+                  style="height: 55px"
+                  name="phone_number" id="phone_number"
+                />
+              </div>
+              <div class="col-12 col-sm-6">
+                <input
+                  type="email"
+                  class="form-control border-0"
+                  placeholder="Email"
+                  style="height: 55px"
+                  name="email" id="email"
+                />
+              </div>
+              <div class="col-12">
+                <button class="btn btn-primary w-100 py-3" type="submit">
+                  Пошук
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Quote End -->
+
+
+<!-- Team Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="section-title text-center">
+      <h1 class="display-5 mb-5">Майстри, які чекають на підтвердження</h1>
+    </div>
+    <div class="row g-4">
+      {% for master in masters %}
+      {% if master.is_confirmed == False%}
+      <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="team-item">
+          <div class="overflow-hidden position-relative">
+            <img
+              class="img-fluid"
+              {% if master.photo %}
+              src="{{ master.photo.url }}"
+              {% else %}
+              src="{% static "assets/img/user-icon.svg" %}"
+              {% endif %}
+              alt=""
+            />
+            <div class="team-social">
+              {% if master.facebook %}
+              <a class="btn btn-square" href="{{ master.facebook }}"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              {% endif %}
+              {% if master.twitter %}
+              <a class="btn btn-square" href="{{ master.twitter }}"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              {% endif %}
+              {% if master.instagram %}
+              <a class="btn btn-square" href="{{ master.instagram }}"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              {% endif %}
+            </div>
+          </div>
+          <div
+            class="text-center border border-5 border-light border-top-0 p-4"
+          >
+            <h5 class="mb-0">{{ master.full_name }}</h5>
+            <h6 class="mb-1">{{ master.phone_number }}</h6>
+            <h6 class="mb-1">{{ master.email }}</h6>
+            <h6 class="mb-1">{{ master.address }}</h6>
+            <small>{{ master.bio }}</small></br>
+            <a class="fw-medium" href="{% url 'confirm' object_type='master' object_id=master.pk %}" title="Підтвердити"
+              ><i class="fa fa-check-circle ms-2"></i
+            ></a>
+            <a class="fw-medium" href="{% url 'delete' object_type='master' object_id=master.pk %}" title="Видалити"><i class="fas fa-trash ms-2" ></i></a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- Team End -->
+
+<!-- Team Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="section-title text-center">
+      <h1 class="display-5 mb-5">Перевірені Майстри</h1>
+    </div>
+    <div class="row g-4">
+      {% for master in masters %}
+      {% if master.is_confirmed%}
+      <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="team-item">
+          <div class="overflow-hidden position-relative">
+            <img
+              class="img-fluid"
+              {% if master.photo %}
+              src="{{ master.photo.url }}"
+              {% else %}
+              src="{% static "assets/img/user-icon.svg" %}"
+              {% endif %}
+              alt=""
+            />
+            <div class="team-social">
+              {% if master.facebook %}
+              <a class="btn btn-square" href="{{ master.facebook }}"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              {% endif %}
+              {% if master.twitter %}
+              <a class="btn btn-square" href="{{ master.twitter }}"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              {% endif %}
+              {% if master.instagram %}
+              <a class="btn btn-square" href="{{ master.instagram }}"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              {% endif %}
+            </div>
+          </div>
+          <div
+            class="text-center border border-5 border-light border-top-0 p-4"
+          >
+            <h5 class="mb-0">{{ master.full_name }}</h5>
+            <h6 class="mb-1">{{ master.phone_number }}</h6>
+            <h6 class="mb-1">{{ master.email }}</h6>
+            <h6 class="mb-1">{{ master.address }}</h6>
+            <small>{{ master.bio }}</small><br/>
+            <a class="fw-medium" href="{% url 'delete' object_type='master' object_id=master.pk %}" title="Видалити"><i class="fas fa-trash ms-2" ></i></a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- Team End -->
+{% endblock main %}
